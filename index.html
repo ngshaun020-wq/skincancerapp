@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Skin Cancer Detector - AI-Powered Analysis</title>
+    <title>Skin Cancer App - AI-Powered Analysis</title>
     <!-- Teachable Machine Libraries -->
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
@@ -526,12 +526,12 @@
     <div class="modal-overlay" id="introModal">
         <div class="intro-modal">
             <div class="modal-header">
-                <h2>👋 Welcome to DermAI</h2>
-                <p>AI-Powered Skin Analysis Prototype</p>
+                <h2>👋 Welcome to Skin Cancer App</h2>
+                <p>AI-Powered Skin Analysis Tool</p>
             </div>
             <div class="modal-content">
                 <p style="margin-bottom: 20px; color: #495057;">
-                    DermAI uses advanced machine learning to help analyze skin lesions and provide initial assessments. 
+                    This app uses advanced machine learning to help analyze skin lesions and provide initial assessments. 
                     Here's how it works:
                 </p>
                 
@@ -575,6 +575,20 @@
                     Always consult qualified healthcare professionals for real skin concerns. Early detection saves lives - see a dermatologist regularly!
                 </div>
                 
+                <div style="background: #e7f3ff; border-radius: 10px; padding: 15px; margin: 20px 0; text-align: center;">
+                    <h3 style="color: #004085; margin-bottom: 10px;">Created By</h3>
+                    <p style="color: #004085; margin: 5px 0; font-weight: 600;">
+                        Shaun & Hayy
+                    </p>
+                    <p style="color: #004085; margin: 5px 0;">
+                        Zhenghua Secondary School<br>
+                        Infocomm Club
+                    </p>
+                    <p style="color: #004085; margin: 10px 0 0 0; font-size: 14px;">
+                        <em>Teacher-in-Charge: Mr Godwin Tan</em>
+                    </p>
+                </div>
+                
                 <div class="modal-actions">
                     <button class="btn-get-started" onclick="closeIntroModal()">
                         I Understand - Let's Start
@@ -591,9 +605,9 @@
                     <circle cx="12" cy="12" r="10"></circle>
                     <path d="M12 6v6l4 2"></path>
                 </svg>
-                DermAI Prototype
+                Skin Cancer App
             </h1>
-            <p>AI-Powered Skin Analysis Concept</p>
+            <p>AI-Powered Skin Analysis Tool</p>
         </div>
 
         <div class="warning">
@@ -650,10 +664,10 @@
             </div>
 
             <div class="file-upload" id="fileUpload">
-                <input type="file" id="fileInput" accept="image/*" capture="environment">
+                <input type="file" id="fileInput" accept="image/*">
                 <div class="upload-icon">📁</div>
                 <div class="upload-text">
-                    Or click here to upload an existing image
+                    Click here to upload an image from your gallery
                 </div>
             </div>
 
@@ -725,12 +739,12 @@
             modal.classList.add('hidden');
             
             // Store that user has seen the intro
-            localStorage.setItem('dermAIIntroSeen', 'true');
+            localStorage.setItem('skinCancerAppIntroSeen', 'true');
         }
 
         // Check if user has seen intro before
         window.addEventListener('DOMContentLoaded', () => {
-            const hasSeenIntro = localStorage.getItem('dermAIIntroSeen');
+            const hasSeenIntro = localStorage.getItem('skinCancerAppIntroSeen');
             
             // Only show modal if user hasn't seen it before
             if (!hasSeenIntro) {
@@ -1123,6 +1137,20 @@
 
         // Capture image
         function captureImage() {
+            // Handle TM Webcam capture
+            if (isUsingTMWebcam && tmWebcam) {
+                // Use TM webcam canvas directly
+                const tmCanvas = tmWebcam.canvas;
+                canvas.width = tmCanvas.width;
+                canvas.height = tmCanvas.height;
+                ctx.drawImage(tmCanvas, 0, 0, canvas.width, canvas.height);
+                
+                const imageData = canvas.toDataURL('image/jpeg');
+                processImage(imageData);
+                return;
+            }
+            
+            // Handle regular camera capture
             if (!currentStream) return;
             
             canvas.width = video.videoWidth || 640;
@@ -1234,25 +1262,36 @@
 
         // Stop camera function
         function stopCamera() {
+            // Stop TM Webcam if active
+            if (isUsingTMWebcam && tmWebcam) {
+                tmWebcam.stop();
+                if (tmWebcam.canvas && tmWebcam.canvas.parentNode) {
+                    tmWebcam.canvas.parentNode.removeChild(tmWebcam.canvas);
+                }
+                tmWebcam = null;
+                isUsingTMWebcam = false;
+            }
+            
+            // Stop regular camera stream
             if (currentStream) {
                 currentStream.getTracks().forEach(track => track.stop());
                 currentStream = null;
                 video.srcObject = null;
                 video.style.display = 'none';
-                
-                // Show permission prompt again
-                document.getElementById('permissionPrompt').style.display = 'block';
-                document.getElementById('overlay').style.display = 'none';
-                document.getElementById('cameraStatus').style.display = 'none';
-                document.getElementById('controls').style.display = 'none';
-                
-                // Reset button
-                const btn = document.getElementById('enableCameraBtn');
-                btn.textContent = '📷 Enable Camera Access';
-                btn.disabled = false;
-                
-                console.log('Camera stopped');
             }
+            
+            // Show permission prompt again
+            document.getElementById('permissionPrompt').style.display = 'block';
+            document.getElementById('overlay').style.display = 'none';
+            document.getElementById('cameraStatus').style.display = 'none';
+            document.getElementById('controls').style.display = 'none';
+            
+            // Reset button
+            const btn = document.getElementById('enableCameraBtn');
+            btn.textContent = '📷 Enable Camera Access';
+            btn.disabled = false;
+            
+            console.log('Camera stopped');
         }
 
         // Event listeners
@@ -1298,3 +1337,4 @@
     </script>
 </body>
 </html>
+
