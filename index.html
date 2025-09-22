@@ -24,6 +24,142 @@
             padding: 20px;
         }
 
+        /* Intro Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-overlay.hidden {
+            display: none;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .intro-modal {
+            background: white;
+            border-radius: 20px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            border-radius: 20px 20px 0 0;
+        }
+
+        .modal-header h2 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .modal-header p {
+            opacity: 0.9;
+            font-size: 14px;
+        }
+
+        .modal-content {
+            padding: 30px;
+        }
+
+        .feature-list {
+            margin: 20px 0;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: start;
+            margin-bottom: 15px;
+        }
+
+        .feature-icon {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            flex-shrink: 0;
+            font-size: 14px;
+        }
+
+        .feature-text h3 {
+            font-size: 16px;
+            margin-bottom: 3px;
+            color: #212529;
+        }
+
+        .feature-text p {
+            font-size: 14px;
+            color: #6c757d;
+            line-height: 1.4;
+        }
+
+        .modal-warning {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+            font-size: 13px;
+            color: #856404;
+        }
+
+        .modal-actions {
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .btn-get-started {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-get-started:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
         .container {
             background: white;
             border-radius: 20px;
@@ -250,17 +386,6 @@
             animation: slideUp 0.5s ease;
         }
 
-        @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
         .result-card {
             background: #f8f9fa;
             border-radius: 10px;
@@ -397,6 +522,68 @@
     </style>
 </head>
 <body>
+    <!-- Intro Modal -->
+    <div class="modal-overlay" id="introModal">
+        <div class="intro-modal">
+            <div class="modal-header">
+                <h2>👋 Welcome to DermAI</h2>
+                <p>AI-Powered Skin Analysis Prototype</p>
+            </div>
+            <div class="modal-content">
+                <p style="margin-bottom: 20px; color: #495057;">
+                    DermAI uses advanced machine learning to help analyze skin lesions and provide initial assessments. 
+                    Here's how it works:
+                </p>
+                
+                <div class="feature-list">
+                    <div class="feature-item">
+                        <div class="feature-icon">📷</div>
+                        <div class="feature-text">
+                            <h3>Capture or Upload</h3>
+                            <p>Use your camera to capture a skin lesion or upload an existing photo</p>
+                        </div>
+                    </div>
+                    
+                    <div class="feature-item">
+                        <div class="feature-icon">🤖</div>
+                        <div class="feature-text">
+                            <h3>AI Analysis</h3>
+                            <p>Our Teachable Machine model analyzes the image using pattern recognition</p>
+                        </div>
+                    </div>
+                    
+                    <div class="feature-item">
+                        <div class="feature-icon">📊</div>
+                        <div class="feature-text">
+                            <h3>Get Results</h3>
+                            <p>Receive classification, confidence scores, and ABCD criteria assessment</p>
+                        </div>
+                    </div>
+                    
+                    <div class="feature-item">
+                        <div class="feature-icon">💡</div>
+                        <div class="feature-text">
+                            <h3>Recommendations</h3>
+                            <p>Get guidance on next steps based on the analysis results</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="modal-warning">
+                    <strong>⚠️ Important Disclaimer:</strong><br>
+                    This is a prototype for demonstration purposes only. It should NOT be used for actual medical diagnosis. 
+                    Always consult qualified healthcare professionals for real skin concerns. Early detection saves lives - see a dermatologist regularly!
+                </div>
+                
+                <div class="modal-actions">
+                    <button class="btn-get-started" onclick="closeIntroModal()">
+                        I Understand - Let's Start
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="container">
         <div class="header">
             <h1>
@@ -532,6 +719,27 @@
     </div>
 
     <script>
+        // Close intro modal function
+        function closeIntroModal() {
+            const modal = document.getElementById('introModal');
+            modal.classList.add('hidden');
+            
+            // Store that user has seen the intro
+            localStorage.setItem('dermAIIntroSeen', 'true');
+        }
+
+        // Check if user has seen intro before
+        window.addEventListener('DOMContentLoaded', () => {
+            const hasSeenIntro = localStorage.getItem('dermAIIntroSeen');
+            
+            // Only show modal if user hasn't seen it before
+            if (!hasSeenIntro) {
+                document.getElementById('introModal').classList.remove('hidden');
+            } else {
+                document.getElementById('introModal').classList.add('hidden');
+            }
+        });
+
         let video = document.getElementById('video');
         let canvas = document.getElementById('canvas');
         let ctx = canvas.getContext('2d');
@@ -539,9 +747,11 @@
         let currentFacingMode = 'user';
         
         // Teachable Machine Model Variables
-        // Model successfully connected!
+        // You can use either a hosted model URL or local path
+        // For hosted: 'https://teachablemachine.withgoogle.com/models/YOUR_MODEL_ID/'
+        // For local: './my_model/' (if you have the model files locally)
         const MODEL_URL = 'https://teachablemachine.withgoogle.com/models/dbl7KlHkV/';
-        let model, maxPredictions;
+        let model, maxPredictions, tmWebcam, isUsingTMWebcam = false;
         
         // Initialize Teachable Machine Model
         async function initModel() {
@@ -554,13 +764,20 @@
                 const modelURL = MODEL_URL + 'model.json';
                 const metadataURL = MODEL_URL + 'metadata.json';
                 
+                // For local files, you could also use:
+                // model = await tmImage.loadFromFiles(modelFile, weightsFile, metadataFile);
+                
                 model = await tmImage.load(modelURL, metadataURL);
                 maxPredictions = model.getTotalClasses();
                 
                 console.log('Teachable Machine model loaded successfully!');
-                console.log('Classes:', maxPredictions);
+                console.log('Classes detected:', maxPredictions);
                 
-                statusText.textContent = `✅ AI Model Ready! (${maxPredictions} classes detected)`;
+                // Get class names from metadata
+                const metadata = model.getMetadata();
+                console.log('Model classes:', metadata.labels);
+                
+                statusText.textContent = `✅ AI Model Ready! (${maxPredictions} classes: ${metadata.labels.join(', ')})`;
                 statusText.style.color = '#155724';
                 document.getElementById('modelStatus').style.background = '#d4edda';
                 document.getElementById('modelStatus').style.borderColor = '#28a745';
@@ -572,6 +789,87 @@
                 statusText.textContent = 'Demo mode - Model connection failed, using simulation';
                 statusText.style.color = '#856404';
                 // Continue with simulated mode if model fails to load
+            }
+        }
+        
+        // Alternative: Initialize Teachable Machine Webcam (if you want continuous predictions)
+        async function initTMWebcam() {
+            if (!model) {
+                console.error('Model must be loaded before initializing TM Webcam');
+                return;
+            }
+            
+            try {
+                // Stop regular camera stream if active
+                if (currentStream) {
+                    stopCamera();
+                }
+                
+                // Create TM Webcam instance
+                const flip = true; // whether to flip the webcam
+                tmWebcam = new tmImage.Webcam(400, 400, flip); // width, height, flip
+                
+                await tmWebcam.setup(); // request access to the webcam
+                await tmWebcam.play();
+                
+                isUsingTMWebcam = true;
+                
+                // Replace video element with TM canvas
+                const container = document.getElementById('cameraContainer');
+                const existingVideo = document.getElementById('video');
+                existingVideo.style.display = 'none';
+                
+                // Add TM webcam canvas
+                tmWebcam.canvas.style.width = '100%';
+                tmWebcam.canvas.style.height = '100%';
+                tmWebcam.canvas.style.objectFit = 'cover';
+                tmWebcam.canvas.style.borderRadius = '10px';
+                container.insertBefore(tmWebcam.canvas, existingVideo);
+                
+                // Start continuous prediction loop if desired
+                // window.requestAnimationFrame(continuousPredictLoop);
+                
+                // Show controls
+                document.getElementById('permissionPrompt').style.display = 'none';
+                document.getElementById('overlay').style.display = 'block';
+                document.getElementById('cameraStatus').style.display = 'block';
+                document.getElementById('controls').style.display = 'flex';
+                
+                console.log('TM Webcam initialized');
+            } catch (error) {
+                console.error('Error initializing TM Webcam:', error);
+                isUsingTMWebcam = false;
+            }
+        }
+        
+        // Continuous prediction loop (optional - for real-time analysis)
+        async function continuousPredictLoop() {
+            if (tmWebcam && isUsingTMWebcam) {
+                tmWebcam.update(); // update the webcam frame
+                
+                // Get predictions
+                const predictions = await model.predict(tmWebcam.canvas);
+                
+                // Update a real-time display if you want
+                updateRealtimePredictions(predictions);
+                
+                // Continue loop
+                window.requestAnimationFrame(continuousPredictLoop);
+            }
+        }
+        
+        // Update real-time predictions display (optional)
+        function updateRealtimePredictions(predictions) {
+            // You could add a real-time predictions panel to show live results
+            // For now, just log them
+            const topPrediction = predictions.reduce((prev, current) => 
+                (prev.probability > current.probability) ? prev : current
+            );
+            
+            // Update camera status to show live prediction
+            const statusEl = document.getElementById('cameraStatus');
+            if (statusEl && topPrediction.probability > 0.5) {
+                statusEl.textContent = `Detecting: ${topPrediction.className} (${Math.round(topPrediction.probability * 100)}%)`;
             }
         }
         
@@ -1000,4 +1298,3 @@
     </script>
 </body>
 </html>
-
